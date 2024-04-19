@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "lib": ["es6", "dom"],
+      "sourceMap": true,
+  
+      "outDir": "lib",
+      "rootDir": "src",
+      // "composite": true,
+  
+      "strict": true,
+      "noImplicitAny": false,
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+  
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+    //   "skipLibCheck":true
+    }
+  }
+  

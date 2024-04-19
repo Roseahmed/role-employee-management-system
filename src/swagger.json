@@ -1,0 +1,682 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Role employee management",
+    "contact": {}
+  },
+  "host": "localhost:8000",
+  "basePath": "/v1/api",
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter the prifix, eg: 'Bearer $token'"
+    }
+  },
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "tags": ["AUTH"],
+        "operationId": "login",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/loginrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "summary": "logout",
+        "tags": ["AUTH"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "logout",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/user": {
+      "get": {
+        "summary": "Get authentication user details",
+        "tags": ["AUTH"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "user",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/auth/changePassword": {
+      "post": {
+        "summary": "Change password",
+        "tags": ["AUTH"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "change-password",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/changePassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+
+    "/roles/add": {
+      "post": {
+        "summary": "Add Roles (Access level: Only by admin user or if permission given to other users)",
+        "tags": ["ROLES"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "add-role",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "x-source-url",
+            "in": "header",
+            "required": true,
+            "default": "/",
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/addRole"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/roles/find-all": {
+      "get": {
+        "summary": "Find all roles (Access level: all type of users)",
+        "tags": ["ROLES"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "find-all-role",
+        "deprecated": false,
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "number",
+            "default": 1,
+            "description": "Describe the page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "number",
+            "default": 2,
+            "description": "Fetch total number of documents"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "createdAt",
+            "description": "Sort the document by given key"
+          },
+          {
+            "in": "query",
+            "name": "sortDirection",
+            "type": "number",
+            "default": -1,
+            "description": "Sort the  documents in ascending or desceding"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/roles/update/{id}": {
+      "put": {
+        "summary": "Update by document id (Access level: Only by admin user or if permission given to other users)",
+        "tags": ["ROLES"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "update-role",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "x-source-url",
+            "in": "header",
+            "required": true,
+            "default": "/",
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updateRole"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/roles/find/{id}": {
+      "get": {
+        "summary": "Find role by document Id (Access level: all Type of users)",
+        "tags": ["ROLES"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "find-one-role",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/roles/delete/{id}": {
+      "delete": {
+        "summary": "Delete by document Id (Access level: Only by admin user or if permission given to other users)",
+        "tags": ["ROLES"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "delete-one-role",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "name": "x-source-url",
+            "in": "header",
+            "required": true,
+            "default": "/",
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+
+    "/employees/add": {
+      "post": {
+        "summary": "Add employee",
+        "tags": ["EMPLOYEE"],
+        "operationId": "add-employee",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/addEmployee"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/employees/update/{id}": {
+      "put": {
+        "summary": "Update employee",
+        "tags": ["EMPLOYEE"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "update-employee",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updateEmployee"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/employees/find-all": {
+      "get": {
+        "summary": "Find all employees",
+        "tags": ["EMPLOYEE"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "number",
+            "default": 1,
+            "description": "Describe the page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "number",
+            "default": 2,
+            "description": "Fetch total number of documents"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "type": "string",
+            "default": "createdAt",
+            "description": "Sort the document by given key"
+          },
+          {
+            "in": "query",
+            "name": "sortDirection",
+            "type": "number",
+            "default": -1,
+            "description": "Sort the  documents in ascending or desceding"
+          }
+        ],
+        "operationId": "find-all-employee",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/employees/find/{id}": {
+      "get": {
+        "summary": "Find one employee",
+        "tags": ["EMPLOYEE"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "find-one-employee",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/employees/{id}": {
+      "delete": {
+        "summary": "Delete one employee",
+        "tags": ["EMPLOYEE"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "delete-one-employee",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+
+    "/employee-role/find": {
+      "get": {
+        "summary": "Find employee and role name",
+        "tags": ["EMPLOYEE-ROLES"],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "operationId": "find-all-employee-roles",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "loginrequest": {
+      "title": "Login",
+      "example": {
+        "username": "admin@gmail.com",
+        "password": "Admin@123"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": ["email", "password"]
+    },
+    "changePassword": {
+      "title": "Change password",
+      "example": {
+        "oldPassword": "Admin@123",
+        "newPassword": "newAdmin@123",
+        "reNewPassword": "newAdmin@123"
+      },
+      "type": "object",
+      "properties": {
+        "oldPassword": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        },
+        "reNewPassword": {
+          "type": "string"
+        }
+      },
+      "required": ["oldPassword", "newPassword", "reNewPassword"]
+    },
+
+    "addEmployee": {
+      "title": "Add employee",
+      "example": {
+        "name": "Rose",
+        "email": "roseahmed@gmail.com",
+        "mobile": "9034585950",
+        "password": "User@123",
+        "rolesId": ["6622b277a2508993654a9fc1"]
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "rolesId": {
+          "type": "array"
+        }
+      },
+      "required": ["name", "email", "password"]
+    },
+    "updateEmployee": {
+      "title": "Update employee",
+      "example": {
+        "name": "Rose Ahmed",
+        "email": "rose@gmail.com",
+        "mobile": "9034585950",
+        "password": "User@1234",
+        "rolesId": ["6622b563a2508993654a9ff1"]
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "rolesId": {
+          "type": "array"
+        }
+      }
+    },
+
+    "addRole": {
+      "title": "Add roles",
+      "example": {
+        "name": "Permission 1",
+        "description": "This permission is for role page permission",
+        "permissions": [
+          {
+            "pageName": "Add roles",
+            "pagePath": "/roles/add",
+            "accessType": ["READ", "WRITE", "UPDATE", "DELETE"]
+          },
+          {
+            "pageName": "Update roles",
+            "pagePath": "/roles/update",
+            "accessType": ["READ"]
+          },
+          {
+            "pageName": "Delete roles",
+            "pagePath": "/roles/delete",
+            "accessType": ["DELETE"]
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": { "type": "string" },
+        "permissions": { "type": "array" }
+      },
+      "required": ["name", "permissions"]
+    },
+    "updateRole": {
+      "title": "Update roles",
+      "example": {
+        "name": "Permission 2",
+        "description": "This is for users page permission",
+        "permissions": [
+          {
+            "pageName": "View user",
+            "pagePath": "/user/find-one",
+            "accessType": ["READ", "WRITE", "UPDATE", "DELETE"]
+          },
+          {
+            "pageName": "Delete user",
+            "pagePath": "/user/delete-one",
+            "accessType": ["READ", "WRITE", "UPDATE", "DELETE"]
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": { "type": "string" },
+        "permissions": { "type": "array" }
+      },
+      "required": ["name", "permissions"]
+    }
+  },
+  "tags": [
+    {
+      "name": "AUTH"
+    }
+  ]
+}
